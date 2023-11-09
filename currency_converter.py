@@ -56,20 +56,10 @@ def convert_to_euros(amount, currency, month):
         return None  # Handle cases where currency or month is not found
 
 
-# # Input from the user
-# amount = float(input("Enter the nominal amount: "))
-# currency = input("Enter the currency abbreviation (e.g., AUD): ")
-# month = int(input("Enter the month (1-12): "))
-#
-# # Perform the conversion
-# euros = convert_to_euros(amount, currency, month)
-#
-# # Display the result
-# if euros is not None:
-#     print(f"{amount} {currency} is approximately {euros:.2f} Euros.")
-# else:
-#     print("Invalid currency or month.")
-
+# Input from the user
+# Initialize default values
+default_currency = "USD"
+default_month = 0  # Assuming January as the default month
 while True:
     # Input from the user
     amount = float(input("Enter the nominal amount (or 0 to exit): "))
@@ -79,10 +69,21 @@ while True:
         print("Goodbye!")
         break
 
-    currency = input("Enter the currency abbreviation (e.g., AUD): ")
-    month = int(input("Enter the month (1-12): "))
-    assert 0 < month < 13
-    month = month - 1
+    currency = input(f"Enter the currency abbreviation, default: {default_currency}: ")
+    if not currency:
+        currency = default_currency
+
+    month = input(f"Enter the month (1-12, default: {default_month + 1}): ")
+    if not month:
+        month = default_month
+    else:
+        month = int(month)
+        assert 0 < month < 13
+        month = month - 1
+
+    # Update default values for the next iteration
+    default_currency = currency
+    default_month = month
 
     # Perform the conversion
     euros = convert_to_euros(amount, currency, month)
